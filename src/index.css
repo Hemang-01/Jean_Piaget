@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0a1a;
+    color: #e8e8f0;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .gradient-text {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+  }
+
+  .neural-line {
+    stroke-dasharray: 8 4;
+    animation: dash 20s linear infinite;
+  }
+
+  .floating {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .pulse-glow {
+    animation: pulseGlow 3s ease-in-out infinite;
+  }
+
+  .stage-card-1 {
+    background: linear-gradient(135deg, #1a1a3e 0%, #2d1b69 100%);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+  }
+
+  .stage-card-2 {
+    background: linear-gradient(135deg, #1a2e3e 0%, #1b4569 100%);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+
+  .stage-card-3 {
+    background: linear-gradient(135deg, #1a3e2e 0%, #1b6945 100%);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .stage-card-4 {
+    background: linear-gradient(135deg, #3e1a2e 0%, #691b45 100%);
+    border: 1px solid rgba(236, 72, 153, 0.3);
+  }
+
+  .timeline-line {
+    background: linear-gradient(180deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  }
+
+  .quote-mark {
+    font-size: 8rem;
+    line-height: 1;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.3;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.6); }
+}
+
+@keyframes dash {
+  to { stroke-dashoffset: -1000; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 30s linear infinite;
+}
