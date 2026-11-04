@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const navItems = [
   { label: 'Home', href: '#home' },
   { label: 'Life', href: '#timeline' },
-  { label: 'Theory', href: '#stages' },
-  { label: 'Contributions', href: '#contributions' },
-  { label: 'Quotes', href: '#quotes' },
-  { label: 'Legacy', href: '#legacy' },
+  { label: 'Knowledge', href: '#knowledge' },
+  { label: 'Schemata', href: '#schemata' },
+  { label: 'Paths', href: '#paths' },
+  { label: 'Stages', href: '#stages' },
+  { label: 'Impact', href: '#impact' },
+  { label: 'Quiz', href: '#quiz' },
 ];
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,7 +49,7 @@ export default function Navigation() {
           J.P.
         </a>
         
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-6">
           {navItems.map((item) => (
             <a
               key={item.href}
@@ -68,10 +71,44 @@ export default function Navigation() {
           ))}
         </div>
 
-        <div className="md:hidden">
-          <a href="#home" className="text-white/50 text-sm">☰</a>
-        </div>
+        {/* Mobile menu button */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="lg:hidden text-white/60 hover:text-white transition-colors"
+        >
+          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            {mobileOpen ? (
+              <path d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
       </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="lg:hidden bg-[#0a0a1a]/95 backdrop-blur-xl border-b border-white/5 px-6 pb-4"
+        >
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={() => setMobileOpen(false)}
+              className={`block py-2 text-sm transition-all duration-300 ${
+                activeSection === item.href.slice(1)
+                  ? 'text-white'
+                  : 'text-white/50'
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </motion.div>
+      )}
     </motion.nav>
   );
 }

@@ -1,18 +1,26 @@
 import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 
 const stages = [
   {
     id: 1,
     name: 'Sensorimotor',
-    age: '0–2 years',
+    age: 'Birth – 1½ years',
     color: 'from-violet-500 to-purple-600',
     borderColor: 'border-violet-500/30',
     bgClass: 'stage-card-1',
     icon: '👁️',
-    description: 'Infants learn about the world through their senses and motor actions. They develop object permanence — understanding that things exist even when unseen.',
-    keyConcepts: ['Object Permanence', 'Sensory Exploration', 'Motor Actions', 'Cause & Effect'],
-    quote: '"The child learns through doing, through touching, through experiencing."',
+    description: 'Development from reflex activity to sensorimotor ways of solving problems. The infant progresses from simple reflexes to coordinated actions and the beginnings of thought.',
+    subPoints: [
+      'Development from Reflex Activity to Sensori-Motor Ways of Solving a Problem',
+      'Coordination of Sensory-Motor Actions',
+      'Primitive Ways of Anticipating Future Events',
+      'The First Signs of Curiosity',
+      'Tendency to Imitate or Repeat Behavior or Actions of Models',
+      'Perception of Objects and People',
+      'Practical Intelligence',
+    ],
+    keyConcepts: ['Object Permanence', 'Reflexes', 'Imitation', 'Cause & Effect'],
     visual: (
       <div className="relative w-full h-40 flex items-center justify-center">
         <motion.div
@@ -25,11 +33,6 @@ const stages = [
           transition={{ duration: 2, repeat: Infinity }}
           className="w-24 h-24 rounded-full border-2 border-violet-400/40 absolute"
         />
-        <motion.div
-          animate={{ scale: [1, 1.3, 1] }}
-          transition={{ duration: 3, repeat: Infinity }}
-          className="w-32 h-32 rounded-full border border-violet-300/20 absolute"
-        />
         <span className="text-4xl relative z-10">👶</span>
       </div>
     ),
@@ -37,14 +40,20 @@ const stages = [
   {
     id: 2,
     name: 'Preoperational',
-    age: '2–7 years',
+    age: '1½ – 7 years',
     color: 'from-blue-500 to-cyan-500',
     borderColor: 'border-blue-500/30',
     bgClass: 'stage-card-2',
     icon: '🎨',
-    description: 'Children develop language and symbolic thinking but struggle with logical operations. They exhibit egocentrism and magical thinking.',
-    keyConcepts: ['Symbolic Thought', 'Egocentrism', 'Animism', 'Conservation (lack of)'],
-    quote: '"The child sees in things what he puts into them."',
+    description: 'During the first half of this stage, extremely rapid development of language occurs. The child\'s thought is dominated by perception, and thinking is marked by egocentrism, animism, and realism.',
+    subPoints: [
+      'Extremely rapid development of language occurs',
+      'The child\'s thought is dominated by perception',
+      'Egocentrism — inability to see from others\' point of view',
+      'Animism — belief that things are alive because they are moving',
+      'Realism — belief that all they see is real, nothing is fictitious',
+    ],
+    keyConcepts: ['Egocentrism', 'Animism', 'Realism', 'Language Development'],
     visual: (
       <div className="relative w-full h-40 flex items-center justify-center gap-2">
         {['🌙', '⭐', '🌈', '🦄', '✨'].map((emoji, i) => (
@@ -62,15 +71,21 @@ const stages = [
   },
   {
     id: 3,
-    name: 'Concrete Operational',
-    age: '7–11 years',
+    name: 'Concrete Operations',
+    age: '7 – 12 years',
     color: 'from-emerald-500 to-teal-500',
     borderColor: 'border-emerald-500/30',
     bgClass: 'stage-card-3',
     icon: '🧩',
-    description: 'Children develop logical thinking about concrete events. They understand conservation, classification, and can perform mathematical operations.',
+    description: 'Logical thinking using concrete objects occurs during this stage. The child\'s egocentrism waves and they are able to take others\' viewpoints. Conservation, classification, and serial arrangement become possible.',
+    subPoints: [
+      'Logical thinking using concrete objects occurs',
+      'Child\'s egocentrism waves — able to take others\' viewpoint',
+      'Understands conservation of numerousness, length, area, and ultimately volume',
+      'Decentering and reversibility of thought',
+      'Capacity to classify, group, and arrange objects serially',
+    ],
     keyConcepts: ['Conservation', 'Classification', 'Seriation', 'Reversibility'],
-    quote: '"Intelligence is what you use when you don\'t know what to do."',
     visual: (
       <div className="relative w-full h-40 flex items-center justify-center">
         <div className="flex gap-1">
@@ -89,15 +104,21 @@ const stages = [
   },
   {
     id: 4,
-    name: 'Formal Operational',
-    age: '11+ years',
+    name: 'Formal Operations',
+    age: '11 – 15+ years',
     color: 'from-pink-500 to-rose-500',
     borderColor: 'border-pink-500/30',
     bgClass: 'stage-card-4',
     icon: '🔬',
-    description: 'Adolescents develop abstract reasoning, hypothetical thinking, and the ability to systematically test hypotheses. They can think about thinking itself.',
+    description: 'The system of mental operations has reached a degree of equilibrium. The adolescent can apply logical thoughts to all classes of problems, use abstract rules, and think systematically about the hypothetical and future.',
+    subPoints: [
+      'System of mental operation has reached a degree of equilibrium',
+      'Ability to apply logical thoughts to all classes of problems',
+      'Ability to use abstract rules to solve a whole class of problems',
+      'Formal thought is rational and systematic',
+      'Becomes concerned with the hypothetical, abstract, and the future',
+    ],
     keyConcepts: ['Abstract Reasoning', 'Hypothetical Thinking', 'Deductive Logic', 'Metacognition'],
-    quote: '"Logic is the morality of thought."',
     visual: (
       <div className="relative w-full h-40 flex items-center justify-center">
         <motion.div
@@ -132,7 +153,7 @@ export default function StagesSection() {
           className="text-center mb-20"
         >
           <p className="text-indigo-400/70 text-sm uppercase tracking-[0.3em] mb-4">Cognitive Architecture</p>
-          <h2 className="text-4xl md:text-6xl font-bold gradient-text mb-6">Four Stages of Development</h2>
+          <h2 className="text-4xl md:text-6xl font-bold gradient-text mb-6">Stages of Cognitive Development</h2>
           <p className="text-white/40 max-w-2xl mx-auto">
             Piaget proposed that children move through four universal stages of cognitive development, 
             each building upon the last like floors of a building.
@@ -160,34 +181,54 @@ export default function StagesSection() {
         </div>
 
         {/* Active stage display */}
-        <motion.div
-          key={activeStage}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className={`${stages[activeStage].bgClass} rounded-3xl p-8 md:p-12`}
-        >
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left: Info */}
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-4xl">{stages[activeStage].icon}</span>
-                <div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-white">
-                    {stages[activeStage].name}
-                  </h3>
-                  <p className={`text-sm bg-gradient-to-r ${stages[activeStage].color} bg-clip-text text-transparent font-medium`}>
-                    {stages[activeStage].age}
-                  </p>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeStage}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className={`${stages[activeStage].bgClass} rounded-3xl p-8 md:p-12`}
+          >
+            <div className="grid md:grid-cols-2 gap-12 items-start">
+              {/* Left: Info */}
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-4xl">{stages[activeStage].icon}</span>
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-white">
+                      {stages[activeStage].name}
+                    </h3>
+                    <p className={`text-sm bg-gradient-to-r ${stages[activeStage].color} bg-clip-text text-transparent font-medium`}>
+                      {stages[activeStage].age}
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <p className="text-white/60 leading-relaxed mb-6">
-                {stages[activeStage].description}
-              </p>
+                <p className="text-white/60 leading-relaxed mb-6">
+                  {stages[activeStage].description}
+                </p>
 
-              <div className="mb-6">
-                <p className="text-white/30 text-xs uppercase tracking-wider mb-3">Key Concepts</p>
+                <div className="mb-6">
+                  <p className="text-white/30 text-xs uppercase tracking-wider mb-3">Key Characteristics</p>
+                  <div className="space-y-2">
+                    {stages[activeStage].subPoints.map((point, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        className="flex items-start gap-2"
+                      >
+                        <span className={`text-xs font-mono bg-gradient-to-r ${stages[activeStage].color} bg-clip-text text-transparent mt-0.5 shrink-0`}>
+                          {i + 1}.
+                        </span>
+                        <p className="text-white/50 text-sm">{point}</p>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="flex flex-wrap gap-2">
                   {stages[activeStage].keyConcepts.map((concept) => (
                     <span
@@ -200,19 +241,13 @@ export default function StagesSection() {
                 </div>
               </div>
 
-              <div className="border-l-2 border-white/10 pl-4">
-                <p className="text-white/40 text-sm italic">
-                  {stages[activeStage].quote}
-                </p>
+              {/* Right: Visual */}
+              <div className="flex items-center justify-center">
+                {stages[activeStage].visual}
               </div>
             </div>
-
-            {/* Right: Visual */}
-            <div className="flex items-center justify-center">
-              {stages[activeStage].visual}
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </AnimatePresence>
 
         {/* Progress indicator */}
         <div className="flex justify-center gap-2 mt-8">
