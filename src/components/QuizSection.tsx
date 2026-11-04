@@ -1,42 +1,49 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { questionSets, QuestionSet } from '../quizData';
 
+// Helper function to get a random set
+const getRandomSet = (excludeIds: number[] = []): QuestionSet => {
+  let availableSets = questionSets.filter(set => !excludeIds.includes(set.id));
+  
+  // If all sets have been used, reset
+  if (availableSets.length === 0) {
+    availableSets = questionSets;
+  }
+  
+  const randomIndex = Math.floor(Math.random() * availableSets.length);
+  return availableSets[randomIndex];
+};
+
+// Compute initial set once when module loads
+const initialSet = getRandomSet();
+
 export default function QuizSection() {
-  const [currentSet, setCurrentSet] = useState<QuestionSet | null>(null);
-  const [usedSets, setUsedSets] = useState<number[]>([]);
+  // Initialize with the pre-computed random set
+  const [currentSet, setCurrentSet] = useState<QuestionSet>(initialSet);
+  const [usedSets, setUsedSets] = useState<number[]>([initialSet.id]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
   const [score, setScore] = useState(0);
   const [quizComplete, setQuizComplete] = useState(false);
-  const [answers, setAnswers] = useState<(number | null)[]>([]);
+  const [answers, setAnswers] = useState<(number | null)[]>(new Array(initialSet.questions.length).fill(null));
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true });
 
-  // Initialize with a random set
-  useEffect(() => {
-    if (!currentSet) {
-      selectNewSet();
-    }
-  }, []);
-
   const selectNewSet = () => {
-    let availableSets = questionSets.filter(set => !usedSets.includes(set.id));
-    
-    // If all sets have been used, reset the used sets
-    if (availableSets.length === 0) {
-      setUsedSets([]);
-      availableSets = questionSets;
-    }
-    
-    // Select a random set from available ones
-    const randomIndex = Math.floor(Math.random() * availableSets.length);
-    const newSet = availableSets[randomIndex];
+    const newSet = getRandomSet(usedSets);
     
     setCurrentSet(newSet);
-    setUsedSets(prev => [...prev, newSet.id]);
+    setUsedSets(prev => {
+      const updated = [...prev, newSet.id];
+      // Reset if all sets used
+      if (updated.length >= questionSets.length) {
+        return [newSet.id];
+      }
+      return updated;
+    });
     setCurrentQuestion(0);
     setSelectedAnswer(null);
     setShowExplanation(false);
@@ -84,7 +91,7 @@ export default function QuizSection() {
     return { text: "Keep learning! Re-read the theory sections and try again.", emoji: "💪" };
   };
 
-  if (!currentSet) return null;
+  const remainingSets = Math.max(0, questionSets.length - usedSets.length);
 
   return (
     <section id="quiz" className="relative py-32 px-6">
@@ -103,13 +110,13 @@ export default function QuizSection() {
             Test yourself with these questions. Each attempt features a unique set!
           </p>
           <div className="mt-4 text-xs text-white/30">
-            Set {currentSet.id} of {questionSets.length} • {questionSets.length - usedSets.length} sets remaining
+            Set {currentSet.id} of {questionSets.length} • {remainingSets} more unique sets available
           </div>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           {!quizComplete ? (
@@ -280,7 +287,7 @@ export default function QuizSection() {
               </motion.button>
               
               <p className="text-white/30 text-xs mt-4">
-                {questionSets.length - usedSets.length} more unique question sets available
+                {remainingSets} more unique question sets available
               </p>
             </motion.div>
           )}
