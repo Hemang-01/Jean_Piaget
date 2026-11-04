@@ -43,8 +43,8 @@ export default function HeroSection() {
                 className="w-40 h-40 md:w-52 md:h-52 mx-auto rounded-full overflow-hidden border-2 border-indigo-500/30 pulse-glow"
               >
                 <img
-                  src="https://image.qwenlm.ai/generated-images/99986788-2405-42fc-af09-279e06909c64/_result.png"
-                  alt="Jean Piaget"
+                  src="https://image.qwenlm.ai/generated-images/413e1d69-5dec-47b3-bf9d-1f9b2829aec7/_result.png"
+                  alt="Jean Piaget - Swiss Developmental Psychologist"
                   className="w-full h-full object-cover"
                 />
               </motion.div>
