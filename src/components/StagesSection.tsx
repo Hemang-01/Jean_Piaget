@@ -1,0 +1,232 @@
+import { useState, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+
+const stages = [
+  {
+    id: 1,
+    name: 'Sensorimotor',
+    age: '0–2 years',
+    color: 'from-violet-500 to-purple-600',
+    borderColor: 'border-violet-500/30',
+    bgClass: 'stage-card-1',
+    icon: '👁️',
+    description: 'Infants learn about the world through their senses and motor actions. They develop object permanence — understanding that things exist even when unseen.',
+    keyConcepts: ['Object Permanence', 'Sensory Exploration', 'Motor Actions', 'Cause & Effect'],
+    quote: '"The child learns through doing, through touching, through experiencing."',
+    visual: (
+      <div className="relative w-full h-40 flex items-center justify-center">
+        <motion.div
+          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="w-16 h-16 rounded-full bg-violet-500/30 absolute"
+        />
+        <motion.div
+          animate={{ scale: [1.2, 1, 1.2], opacity: [1, 0.5, 1] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="w-24 h-24 rounded-full border-2 border-violet-400/40 absolute"
+        />
+        <motion.div
+          animate={{ scale: [1, 1.3, 1] }}
+          transition={{ duration: 3, repeat: Infinity }}
+          className="w-32 h-32 rounded-full border border-violet-300/20 absolute"
+        />
+        <span className="text-4xl relative z-10">👶</span>
+      </div>
+    ),
+  },
+  {
+    id: 2,
+    name: 'Preoperational',
+    age: '2–7 years',
+    color: 'from-blue-500 to-cyan-500',
+    borderColor: 'border-blue-500/30',
+    bgClass: 'stage-card-2',
+    icon: '🎨',
+    description: 'Children develop language and symbolic thinking but struggle with logical operations. They exhibit egocentrism and magical thinking.',
+    keyConcepts: ['Symbolic Thought', 'Egocentrism', 'Animism', 'Conservation (lack of)'],
+    quote: '"The child sees in things what he puts into them."',
+    visual: (
+      <div className="relative w-full h-40 flex items-center justify-center gap-2">
+        {['🌙', '⭐', '🌈', '🦄', '✨'].map((emoji, i) => (
+          <motion.span
+            key={i}
+            animate={{ y: [0, -15, 0] }}
+            transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+            className="text-2xl"
+          >
+            {emoji}
+          </motion.span>
+        ))}
+      </div>
+    ),
+  },
+  {
+    id: 3,
+    name: 'Concrete Operational',
+    age: '7–11 years',
+    color: 'from-emerald-500 to-teal-500',
+    borderColor: 'border-emerald-500/30',
+    bgClass: 'stage-card-3',
+    icon: '🧩',
+    description: 'Children develop logical thinking about concrete events. They understand conservation, classification, and can perform mathematical operations.',
+    keyConcepts: ['Conservation', 'Classification', 'Seriation', 'Reversibility'],
+    quote: '"Intelligence is what you use when you don\'t know what to do."',
+    visual: (
+      <div className="relative w-full h-40 flex items-center justify-center">
+        <div className="flex gap-1">
+          {[1, 2, 3, 4, 5].map((n, i) => (
+            <motion.div
+              key={n}
+              initial={{ height: 20 }}
+              animate={{ height: [20, 20 + i * 15, 20] }}
+              transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
+              className="w-8 bg-emerald-500/30 rounded-t-sm border border-emerald-400/30"
+            />
+          ))}
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: 4,
+    name: 'Formal Operational',
+    age: '11+ years',
+    color: 'from-pink-500 to-rose-500',
+    borderColor: 'border-pink-500/30',
+    bgClass: 'stage-card-4',
+    icon: '🔬',
+    description: 'Adolescents develop abstract reasoning, hypothetical thinking, and the ability to systematically test hypotheses. They can think about thinking itself.',
+    keyConcepts: ['Abstract Reasoning', 'Hypothetical Thinking', 'Deductive Logic', 'Metacognition'],
+    quote: '"Logic is the morality of thought."',
+    visual: (
+      <div className="relative w-full h-40 flex items-center justify-center">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+          className="w-20 h-20 border-2 border-pink-400/40 rounded-lg"
+        />
+        <motion.div
+          animate={{ rotate: -360 }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
+          className="absolute w-14 h-14 border-2 border-pink-300/30 rounded-lg"
+        />
+        <span className="text-3xl absolute">∞</span>
+      </div>
+    ),
+  },
+];
+
+export default function StagesSection() {
+  const [activeStage, setActiveStage] = useState(0);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true });
+
+  return (
+    <section id="stages" className="relative py-32 px-6">
+      <div className="max-w-6xl mx-auto" ref={sectionRef}>
+        {/* Section header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
+        >
+          <p className="text-indigo-400/70 text-sm uppercase tracking-[0.3em] mb-4">Cognitive Architecture</p>
+          <h2 className="text-4xl md:text-6xl font-bold gradient-text mb-6">Four Stages of Development</h2>
+          <p className="text-white/40 max-w-2xl mx-auto">
+            Piaget proposed that children move through four universal stages of cognitive development, 
+            each building upon the last like floors of a building.
+          </p>
+        </motion.div>
+
+        {/* Stage selector */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {stages.map((stage, index) => (
+            <motion.button
+              key={stage.id}
+              onClick={() => setActiveStage(index)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`px-5 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
+                activeStage === index
+                  ? `bg-gradient-to-r ${stage.color} text-white shadow-lg`
+                  : 'bg-white/5 text-white/50 border border-white/10 hover:border-white/20'
+              }`}
+            >
+              <span className="mr-2">{stage.icon}</span>
+              {stage.name}
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Active stage display */}
+        <motion.div
+          key={activeStage}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className={`${stages[activeStage].bgClass} rounded-3xl p-8 md:p-12`}
+        >
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left: Info */}
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-4xl">{stages[activeStage].icon}</span>
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white">
+                    {stages[activeStage].name}
+                  </h3>
+                  <p className={`text-sm bg-gradient-to-r ${stages[activeStage].color} bg-clip-text text-transparent font-medium`}>
+                    {stages[activeStage].age}
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-white/60 leading-relaxed mb-6">
+                {stages[activeStage].description}
+              </p>
+
+              <div className="mb-6">
+                <p className="text-white/30 text-xs uppercase tracking-wider mb-3">Key Concepts</p>
+                <div className="flex flex-wrap gap-2">
+                  {stages[activeStage].keyConcepts.map((concept) => (
+                    <span
+                      key={concept}
+                      className="px-3 py-1 rounded-full text-xs bg-white/5 border border-white/10 text-white/60"
+                    >
+                      {concept}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-l-2 border-white/10 pl-4">
+                <p className="text-white/40 text-sm italic">
+                  {stages[activeStage].quote}
+                </p>
+              </div>
+            </div>
+
+            {/* Right: Visual */}
+            <div className="flex items-center justify-center">
+              {stages[activeStage].visual}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Progress indicator */}
+        <div className="flex justify-center gap-2 mt-8">
+          {stages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveStage(index)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                activeStage === index ? 'w-8 bg-indigo-400' : 'bg-white/20'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
